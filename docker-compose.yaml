@@ -1,0 +1,37 @@
+services:
+   haproxy1:
+      image: haproxytech/haproxy-debian:3.2
+      hostname: haproxy1
+      ports:
+        - "8080:8080"
+        - "9000:9000"
+        - "8405:8405"
+        - "8500:8500"
+        - "8443:8443"
+      volumes:
+      - ./haproxy1.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      networks:
+        haproxy-net:
+          ipv4_address: 192.168.0.2
+
+   haproxy2:
+      image: haproxytech/haproxy-debian:3.2
+      hostname: haproxy2
+      ports:
+        - "8081:8080"
+        - "9001:9000"
+        - "8501:8500"
+        - "8406:8405"
+        - "8444:8443"
+      volumes:
+      - ./haproxy2.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      networks:
+        haproxy-net:
+          ipv4_address: 192.168.0.3
+
+networks:
+  haproxy-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24
